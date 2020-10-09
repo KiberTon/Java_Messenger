@@ -1,5 +1,7 @@
 package ru.geekbrains;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -14,10 +16,12 @@ public class Main {
             System.out.println("Сервер запущен");
             Socket socket = serverSocket.accept();
             System.out.println("Клиент подключился");
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             while (true) {
-                String str = in.nextLine();
+                String str = in.readUTF();
+                out.writeUTF("Echo: " + str);
+                out.flush();
                 System.out.println("Client: " + str);
             }
         } catch (Exception e) {
