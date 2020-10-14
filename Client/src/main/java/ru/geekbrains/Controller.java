@@ -1,7 +1,10 @@
 package ru.geekbrains;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -14,11 +17,61 @@ public class Controller implements Initializable {
     private DataInputStream in;
     private DataOutputStream out;
 
+    @FXML
+    javafx.scene.control.TextField msgField;
+    @FXML
+    TextArea mainTextArea;
+
     public void initialize(URL location, ResourceBundle resources) {
         try {
             socket = new Socket("localhost", 8189);
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        while (true) {
+                            String str = in.readUTF();
+                            mainTextArea.appendText(str);
+                            mainTextArea.appendText("\n");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            t.setDaemon(true);
+            t.start();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendMsg() {
+        try {
+            out.writeUTF(msgField.getText());
+            msgField.clear();
+            msgField.requestFocus();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -8,7 +8,7 @@
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <TextArea focusTraversable="false" editable="false" fx:id="mainTextArea" VBox.vgrow="ALWAYS"/>
     <HBox>
-        <TextField HBox.hgrow="ALWAYS" fx:id="msgField" promptText="Введите сообщение..."/>
-        <Button text="Отправить"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="msgField" promptText="Введите сообщение..." onAction="#sendMsg"/>
+        <Button text="Отправить" onAction="#sendMsg"/>
     </HBox>
 </VBox>
