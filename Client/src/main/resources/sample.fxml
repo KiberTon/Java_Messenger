@@ -5,10 +5,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 <VBox fx:controller="ru.geekbrains.Controller"
-      xmlns:fx="http://javafx.com/fxml" alignment="center">
+      xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="style.css">
     <TextArea focusTraversable="false" editable="false" fx:id="mainTextArea" VBox.vgrow="ALWAYS"/>
     <HBox>
         <TextField HBox.hgrow="ALWAYS" fx:id="msgField" promptText="Введите сообщение..." onAction="#sendMsg"/>
-        <Button text="Отправить" onAction="#sendMsg"/>
+        <Button styleClass="my-btn-style" text="Отправить" onAction="#sendMsg"/>
     </HBox>
 </VBox>
