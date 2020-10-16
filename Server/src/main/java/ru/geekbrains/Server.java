@@ -11,6 +11,7 @@ public class Server {
 
     public Server() {
         try {
+            SQLHandler.connect();
             serverSocket = new ServerSocket(8189);
             clients = new Vector<ClientHandler>();
             System.out.println("Сервер запущен");
@@ -27,6 +28,7 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            SQLHandler.disconnection();
         }
     }
     public void broadcastMsg(String msg){
